@@ -327,9 +327,23 @@ class FlutterGooglePlacesSdkPlugin : FlutterPlugin, MethodCallHandler {
     private fun placeFieldFromStr(it: String): Place.Field {
         try {
             return when (it) {
+                // Mappings for enum names (platform_interface 0.4.0 fetchPlace sends .name)
                 "FormattedAddressAdr" -> Place.Field.ADR_FORMAT_ADDRESS
                 "UtcOffset" -> Place.Field.UTC_OFFSET
                 "Photos" -> Place.Field.PHOTO_METADATAS
+
+                // Backward-compat mappings for enum values (platform_interface 0.3.x sends .value)
+                "LAT_LNG" -> Place.Field.LOCATION
+                "ADDRESS" -> Place.Field.FORMATTED_ADDRESS
+                "NAME" -> Place.Field.DISPLAY_NAME
+                "PHONE_NUMBER" -> Place.Field.NATIONAL_PHONE_NUMBER
+                "PHOTO_METADATAS" -> Place.Field.PHOTO_METADATAS
+                "USER_RATINGS_TOTAL" -> Place.Field.USER_RATING_COUNT
+                "ICON_URL" -> Place.Field.ICON_MASK_URL
+                "WEBSITE_U_R_I" -> Place.Field.WEBSITE_URI
+                "WHEELCHAIR_ACCESSIBLE_ENTRANCE" -> Place.Field.ACCESSIBILITY_OPTIONS
+                "UTC_OFFSET_MINUTES" -> Place.Field.UTC_OFFSET
+
                 else -> Place.Field.valueOf(it.toScreamingSnakeCase())
             }
         } catch (_: IllegalArgumentException) {
